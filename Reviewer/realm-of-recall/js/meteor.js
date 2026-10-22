@@ -1,5 +1,5 @@
 
-const MM = { W: 800, H: 480, EVERY: 10, QTIME: 20, LIVES: 3, BEST: "meteorMayhemBest" };
+const MM = { W: 800, H: 480, EVERY: 10, QTIME: 30, LIVES: 3, BEST: "meteorMayhemBest" };
 const mmCanvas = $("mm-canvas");
 const mmCtx = mmCanvas.getContext("2d");
 const mmKeys = {};
