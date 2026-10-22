@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realm of Recall</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Realm of Recall home">
+        <span class="brand-mark">✦</span>
+        <span>REALM OF RECALL</span>
+      </a>
+      <div class="top-stats">
+        <button id="header-stats" class="stat-group" type="button" title="Open the scoreboard">
+          <span class="stat">🏅 <b id="header-score">0</b></span>
+          <span class="stat">🪙 <b id="header-coins">0</b></span>
+          <span class="stat">⭐ LV <b id="header-level">1</b></span>
+        </button>
+        <button id="sound-button" class="stat sound-toggle" type="button" aria-label="Turn sound on or off">🔊</button>
+      </div>
+    </header>
+    <div id="xp-strip" class="xp-strip"><i id="xp-fill"></i></div>
+
+    <section id="home-screen" class="screen hero-screen">
+      <div class="hero-copy">
+        <p class="eyebrow">A PIXEL ADVENTURE FOR YOUR MIND</p>
+        <h1>THE KINGDOM<br><span>NEEDS YOU.</span></h1>
+        <p class="intro">The Forgotten Fog has stolen the kingdom's knowledge. Explore enchanted lands, master your lessons, and restore the Realm one answer at a time.</p>
+        <div class="button-row">
+          <button id="play-button" class="btn btn-primary">▶ PLAY</button>
+          <button id="score-button" class="btn btn-secondary">🏅 SCOREBOARD</button>
+          <button id="edit-button" class="btn btn-secondary">✎ EDIT QUESTIONS</button>
+          <button id="how-button" class="btn btn-secondary">HOW TO PLAY</button>
+        </div>
+        <p class="microcopy">2 GAME MODES · STUDY · BATTLE · LEVEL UP</p>
+      </div>
+      <div class="hero-art" aria-label="Pixel fantasy castle illustration">
+        <div class="sun"></div>
+        <div class="cloud cloud-one"></div>
+        <div class="cloud cloud-two"></div>
+        <div class="mountain mountain-back"></div>
+        <div class="mountain mountain-front"></div>
+        <div class="castle">
+          <div class="tower tower-left"><i></i></div>
+          <div class="tower tower-right"><i></i></div>
+          <div class="castle-body"><div class="door"></div><div class="window w1"></div><div class="window w2"></div></div>
+          <div class="flag">⚑</div>
+        </div>
+        <div class="ground"></div>
+        <div class="hero-sprite"><span class="hero-hair"></span><span class="hero-face"></span><span class="hero-cloak"></span><span class="hero-sword"></span></div>
+        <div class="pixel-label">MEADOW OF BEGINNINGS</div>
+      </div>
+    </section>
+
+    <section id="mode-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow">PICK YOUR ADVENTURE</p>
+        <h2>CHOOSE A GAME MODE</h2>
+        <p>Press 1 or 2, or tap a card.</p>
+      </div>
+      <div class="mode-grid">
+        <button id="mode-realm" class="mode-card" type="button">
+          <span class="mode-num">1</span><span class="mode-icon">🏰</span>
+          <b>REALM OF RECALL</b>
+          <small>Explore the world map, study, and battle guardians by category. Face the Fog King at the end.</small>
+        </button>
+        <button id="mode-meteor" class="mode-card meteor" type="button">
+          <span class="mode-num">2</span><span class="mode-icon">☄️</span>
+          <b>METEOR MAYHEM</b>
+          <small>Dodge falling meteors and collect stars. Every 10 seconds, a knowledge challenge appears. Correct answers activate a protective shield.</small>
+        </button>
+      </div>
+      <button id="mode-back" class="btn btn-secondary">← MAIN MENU</button>
+    </section>
+
+    <section id="meteor-screen" class="screen hidden">
+      <div class="quiz-topline">
+        <button id="mm-exit" class="btn btn-small btn-secondary">← EXIT</button>
+        <span class="eyebrow">METEOR MAYHEM</span>
+        <span class="question-count" id="mm-best">BEST 0</span>
+      </div>
+      <div class="mm-stage">
+        <div class="battle-hud mm-hud">
+          <div><span class="hud-label">LIVES</span><div id="mm-hearts" class="hearts">♥ ♥ ♥</div></div>
+          <div><span class="hud-label">SCORE</span><b id="mm-score">0</b></div>
+          <div><span class="hud-label">LEVEL</span><b id="mm-level">1</b></div>
+          <div><span class="hud-label">STARS</span><b id="mm-stars">0</b></div>
+          <div><span class="hud-label">SHIELD</span><b id="mm-shield">OFF</b></div>
+          <div><span class="hud-label">NEXT CHALLENGE</span><b id="mm-next">30s</b></div>
+        </div>
+        <div class="timer-bar"><i id="mm-next-fill"></i></div>
+        <div class="mm-field">
+          <canvas id="mm-canvas" width="800" height="480" aria-label="Meteor Mayhem game"></canvas>
+          <div id="mm-overlay" class="mm-overlay"></div>
+        </div>
+      </div>
+      <p class="microcopy">ARROWS / WASD OR DRAG TO MOVE · STARS = POINTS · CORRECT ANSWER = SHIELD</p>
+    </section>
+
+    <section id="how-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow">YOUR ADVENTURE GUIDE</p>
+        <h2>HOW TO PLAY</h2>
+        <p>Learn as you explore. Every answer brings the kingdom closer to being restored.</p>
+      </div>
+      <div class="guide-grid">
+        <article class="panel"><span class="guide-icon">📜</span><h3>1. Study</h3><p>Read the notes, or open the study sheet to see every answer with its explanation.</p></article>
+        <article class="panel"><span class="guide-icon">⚔️</span><h3>2. Battle</h3><p>Each battle picks random questions and shuffles the answers, so you can't memorize the order. You get 2 minutes per question. Keys 1-5 pick an answer, Enter submits.</p></article>
+        <article class="panel"><span class="guide-icon">🔥</span><h3>3. Build combos</h3><p>Fast answers and winning streaks earn bonus XP. Wrong answers cost a heart and show you why.</p></article>
+        <article class="panel"><span class="guide-icon">👑</span><h3>4. Face the Fog King</h3><p>Gain levels to unlock the Final Boss. His questions come from every category at once.</p></article>
+      </div>
+      <button class="btn btn-primary back-home">← BACK TO MENU</button>
+    </section>
+
+    <section id="map-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow">CHOOSE YOUR DESTINATION</p>
+        <h2>THE WORLD MAP</h2>
+        <p>Pick any region. Clear a stage by scoring 70% or higher. The Final Boss waits at the end.</p>
+      </div>
+      <div class="world-map" id="world-map">
+        <div class="map-path"></div>
+      </div>
+      <div class="panel lesson-panel">
+        <div>
+          <p class="eyebrow" id="stage-eyebrow">STAGE 01</p>
+          <h3 id="stage-title">Stage</h3>
+          <p id="stage-desc"></p>
+          <p class="microcopy" id="stage-stats"></p>
+        </div>
+        <div class="button-row stage-buttons">
+          <button id="study-stage" class="btn btn-secondary">📖 STUDY SHEET</button>
+          <button id="enter-stage" class="btn btn-primary">ENTER STAGE →</button>
+        </div>
+      </div>
+      <button class="btn btn-secondary back-home">← MAIN MENU</button>
+    </section>
+
+    <section id="lesson-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow" id="lesson-eyebrow">PREPARATION</p>
+        <h2>THE ADVENTURER'S JOURNAL</h2>
+        <p id="lesson-intro"></p>
+      </div>
+      <div class="panel lesson-content" id="lesson-content"></div>
+      <div class="button-row">
+        <button id="begin-quiz" class="btn btn-primary">⚔ BEGIN BATTLE</button>
+        <button id="study-from-lesson" class="btn btn-secondary">📖 STUDY SHEET</button>
+        <button id="map-from-lesson" class="btn btn-secondary">← WORLD MAP</button>
+      </div>
+    </section>
+
+    <section id="study-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow" id="study-eyebrow">STUDY SHEET</p>
+        <h2>THE REVIEWER</h2>
+        <p>Every question with its answer and explanation. Read it, then battle.</p>
+      </div>
+      <div class="panel study-panel">
+        <div class="study-tools">
+          <input id="study-search" class="answer-input study-search" type="search" placeholder="Search questions or answers..." autocomplete="off" aria-label="Search the study sheet">
+          <span class="review-tag" id="study-count">0 questions</span>
+        </div>
+        <div id="study-list"></div>
+      </div>
+      <div class="button-row">
+        <button id="study-battle" class="btn btn-primary">⚔ BEGIN BATTLE</button>
+        <button id="study-back" class="btn btn-secondary">← WORLD MAP</button>
+      </div>
+    </section>
+
+    <section id="quiz-screen" class="screen hidden">
+      <div class="quiz-topline">
+        <button id="quit-quiz" class="btn btn-small btn-secondary">← EXIT</button>
+        <span class="eyebrow" id="quiz-title">GUARDIAN BATTLE</span>
+        <span class="question-count" id="question-count">QUESTION 1/10</span>
+      </div>
+      <div class="battle-arena" id="battle-arena">
+        <div class="battle-sky">
+          <div class="battle-cloud cloud-one"></div><div class="battle-cloud cloud-two"></div>
+          <div class="enemy-sprite" id="enemy-sprite"><span class="enemy-horn horn-left"></span><span class="enemy-horn horn-right"></span><span class="enemy-eye eye-left"></span><span class="enemy-eye eye-right"></span><span class="enemy-mouth"></span></div>
+          <div class="enemy-name"><span id="enemy-name-text">GUARDIAN</span> <span id="enemy-mood">● READY</span></div>
+          <div class="battle-ground"></div>
+        </div>
+        <div class="battle-hud">
+          <div><span class="hud-label">HEALTH</span><div id="hearts" class="hearts">♥ ♥ ♥ ♥ ♥</div></div>
+          <div><span class="hud-label">SCORE</span><b id="battle-xp">0</b></div>
+          <div id="combo-box"><span class="hud-label">COMBO</span><b id="combo">x0</b></div>
+          <div><span class="hud-label">COINS</span><b id="battle-coins">0</b></div>
+          <div id="timer-box"><span class="hud-label">TIME</span><b id="timer">2:00</b></div>
+        </div>
+        <div class="timer-bar" aria-hidden="true"><i id="timer-fill"></i></div>
+      </div>
+      <div class="question-panel panel">
+        <div class="question-meta"><span id="type-label" class="review-tag">MULTIPLE CHOICE</span><span id="question-points">+100 XP</span></div>
+        <h2 id="question-text">Loading question...</h2>
+        <div id="question-image-wrap" class="question-image-wrap hidden"></div>
+        <div id="answer-area" class="answer-area"></div>
+        <div id="feedback" class="feedback hidden" role="status"></div>
+        <div class="quiz-actions"><button id="hint-button" class="btn btn-secondary btn-small">✨ USE HINT · 25 COINS</button><button id="submit-answer" class="btn btn-primary">SUBMIT ANSWER →</button><button id="next-question" class="btn btn-primary hidden">NEXT QUESTION →</button></div>
+      </div>
+    </section>
+
+    <section id="results-screen" class="screen hidden">
+      <div class="results-hero">
+        <div class="trophy" id="trophy">🏆</div>
+        <p class="eyebrow">QUEST REPORT</p>
+        <h2 id="result-title">STAGE COMPLETE!</h2>
+        <p id="result-message">You have restored a little knowledge to the realm.</p>
+        <div id="levelup" class="levelup hidden"></div>
+      </div>
+      <div class="result-stats">
+        <div class="result-card"><span>ACCURACY</span><b id="result-accuracy">0%</b></div>
+        <div class="result-card"><span>BATTLE SCORE</span><b id="result-xp">0</b></div>
+        <div class="result-card"><span>COINS EARNED</span><b id="result-coins">0</b></div>
+        <div class="result-card"><span>BEST STREAK</span><b id="result-streak">0</b></div>
+      </div>
+      <div class="panel total-panel">
+        <div><span class="hud-label">TOTAL SCORE</span><b id="result-total">0</b></div>
+        <div><span class="hud-label">LEVEL</span><b id="result-level">1</b></div>
+        <div class="total-bar">
+          <div class="xp-track"><i id="result-xpbar"></i></div>
+          <small id="result-xpnote"></small>
+        </div>
+      </div>
+      <div class="panel mistakes-panel"><h3>📖 Your Memory Journal</h3><p>Questions to review after this attempt:</p><div id="mistakes-list"></div></div>
+      <div class="button-row centered">
+        <button id="retry-button" class="btn btn-primary">↻ PLAY AGAIN</button>
+        <button id="results-study" class="btn btn-secondary">📖 STUDY SHEET</button>
+        <button id="results-score" class="btn btn-secondary">🏅 SCOREBOARD</button>
+        <button id="results-map" class="btn btn-secondary">WORLD MAP</button>
+      </div>
+    </section>
+
+    <section id="scoreboard-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow">YOUR LEGEND SO FAR</p>
+        <h2>SCOREBOARD</h2>
+        <p>Your total score is all the XP you have earned across every battle.</p>
+      </div>
+      <div class="result-stats sb-cards">
+        <div class="result-card big"><span>TOTAL SCORE</span><b id="sb-score">0</b></div>
+        <div class="result-card"><span>LEVEL</span><b id="sb-level">1</b><small id="sb-xpnote"></small></div>
+        <div class="result-card"><span>COINS</span><b id="sb-coins">0</b></div>
+        <div class="result-card"><span>BATTLES</span><b id="sb-battles">0</b></div>
+        <div class="result-card"><span>ACCURACY</span><b id="sb-accuracy">-</b></div>
+        <div class="result-card"><span>BEST STREAK</span><b id="sb-streak">0</b></div>
+        <div class="result-card"><span>FINAL BOSS</span><b id="sb-boss">-</b></div>
+      </div>
+      <div class="panel sb-panel"><h3>By category</h3><div id="sb-table" class="sb-table"></div></div>
+      <div class="panel sb-panel"><h3>Recent battles</h3><div id="sb-recent" class="sb-table"></div></div>
+      <div class="button-row">
+        <button id="sb-back" class="btn btn-primary">⚔ WORLD MAP</button>
+        <button class="btn btn-secondary back-home">← MAIN MENU</button>
+        <button id="sb-reset" class="btn btn-small btn-danger">RESET PROGRESS</button>
+      </div>
+    </section>
+
+    <section id="editor-screen" class="screen hidden">
+      <div class="section-heading">
+        <p class="eyebrow">YOU ARE THE GAME MASTER</p>
+        <h2>EDIT THE REALM</h2>
+        <p>Add, change or delete questions and categories. Changes save in this browser right away. Export a backup now and then.</p>
+      </div>
+      <div class="editor-layout">
+        <aside class="panel editor-side">
+          <h3>Categories</h3>
+          <div id="editor-cat-list" class="cat-list"></div>
+          <button id="add-category" class="btn btn-small btn-secondary">+ NEW CATEGORY</button>
+          <h3 class="side-heading">Game</h3>
+          <button id="open-settings" class="btn btn-small btn-secondary">⚙ SETTINGS</button>
+          <button id="export-bank" class="btn btn-small btn-secondary">⬇ EXPORT BACKUP</button>
+          <button id="import-bank" class="btn btn-small btn-secondary">⬆ LOAD BACKUP</button>
+          <input id="import-file" type="file" accept="application/json,.json" class="hidden">
+          <button id="restore-builtin" class="btn btn-small btn-secondary">↺ RESTORE BUILT-IN</button>
+          <button id="factory-reset" class="btn btn-small btn-danger">ERASE ALL EDITS</button>
+        </aside>
+        <div class="panel editor-main">
+          <div class="editor-head">
+            <div><h3 id="editor-title">Category</h3><span class="review-tag" id="editor-count">0 questions</span></div>
+            <div id="editor-actions" class="editor-actions">
+              <button id="edit-category" class="btn btn-small btn-secondary">✎ EDIT CATEGORY</button>
+              <button id="delete-category" class="btn btn-small btn-danger">🗑 DELETE</button>
+            </div>
+          </div>
+          <div class="editor-toolbar">
+            <input id="editor-search" class="answer-input" type="search" placeholder="Search this category..." autocomplete="off" aria-label="Search questions">
+            <button id="add-question" class="btn btn-primary btn-small">+ ADD QUESTION</button>
+            <button id="bulk-add" class="btn btn-secondary btn-small">📋 PASTE MANY</button>
+          </div>
+          <div id="editor-q-list"></div>
+        </div>
+      </div>
+      <div class="button-row">
+        <button id="editor-play" class="btn btn-primary">⚔ PLAY NOW</button>
+        <button id="editor-back" class="btn btn-secondary">← MAIN MENU</button>
+      </div>
+    </section>
+
+    <footer><span>REALM OF RECALL</span><span>LEARN · EXPLORE · RESTORE</span></footer>
+  </main>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box panel" id="modal-box">
+      <h3 id="modal-title">Title</h3>
+      <div id="modal-body"></div>
+      <div id="modal-error" class="form-errors hidden" role="alert"></div>
+      <div id="modal-actions" class="modal-actions"></div>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+
+  <!-- 1) helpers + stage registry -->
+  <script src="js/util.js"></script>
+  <script src="js/stages.js"></script>
+  <script src="js/categories.js"></script>
+
+  <!-- 2) one line per question file. To add a new subject file, add a line here. -->
+  <script src="js/questions/sat-math-nocalc.js"></script>
+  <script src="js/questions/sat-math-calc.js"></script>
+  <script src="js/questions/mock-math.js"></script>
+  <script src="js/questions/sat-writing.js"></script>
+  <script src="js/questions/sat-reading.js"></script>
+  <script src="js/questions/mock-language.js"></script>
+  <script src="js/questions/mock-science.js"></script>
+  <script src="js/questions/abstract-reasoning.js"></script>
+  <script src="js/questions/general-info.js"></script>
+
+  <!-- 3) question bank, game engine and editor (in this order) -->
+  <script src="js/bank.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/meteor.js"></script>
+</body>
+</html>
